@@ -1,92 +1,33 @@
-# Developer Challenge
+# ReelRater DApp
 
-Build a DApp on using FireFly.
+_Purpose_: This movie rating application allows users to register and rate 5 newest movies. The app uses blockchain to keep track of secure transactions and not allow users to rate movies multiple times so that final rating results aren't skewed.
 
-Fork this repo, choose a use case you think would be interesting to build as a decentralized application (DApp), then get creative and have fun.
 
-... and please **ask questions** - we don't want you to be stuck, and appreciate collaboration through the project.
+## Start Dev environment:
+- Run `npm i` to install all necessary packages
+- Run `npm start` in both directories called "backend" and "frontend"
 
-## What is a DApp?
+## Application UI
+_main page:_
 
-- [Ethereum Foundation](https://ethereum.org/en/developers/docs/dapps/)
-  - Background of how DApps have evolved in the wild, and why
-- [DApps Build on Ethereum](https://ethereum.org/en/dapps/)
-  - All that's been built in the wonderful world of public Ethereum
-- [FireFly docs](https://docs.kaleido.io/kaleido-platform/full-stack/dapps/)
-  - DApps in an Enterprise context
+<img width="799" alt="image" src="https://github.com/hirusepalika/developer-challenge-kaleido-HF/assets/16341779/a9830bb3-bab8-49b7-a1ec-9bca787502b2">
 
-## What does done look like?
+_user not found:_
 
-We would like your project to demonstrate your concept end-to-end, but it doesn't need to be a complete application.
+<img width="655" alt="image" src="https://github.com/hirusepalika/developer-challenge-kaleido-HF/assets/16341779/b0d4b0a3-f0ee-47c3-b080-aeec0313b2df">
 
-It must:
+_new user registration:_
 
-- Have a Web based frontend user experience which talks to your app's backend
-- Have a backend-for-the-frontend (BFF), that uses FireFly's API
-  - Note: An SDK including API wrappers and a WebSocket event listener is provided for Node.js and includes type definitions for TypeScript. You are not required to use it, but we strongly recommend it as it will save you a lot of time.
-- Use Hyperledger FireFly
-- Have on-chain Smart Contract logic, written in Solidity
-- Contain a README that gives a quick overview of the use case, and tells us how to run it
+<img width="649" alt="image" src="https://github.com/hirusepalika/developer-challenge-kaleido-HF/assets/16341779/dac5e053-b99e-4a93-b2a0-5f9da8675ae9">
 
-How much time you spend on each tier is down to you - depending on your interests and the skills you want to show.
+_user is new and has not rated movies:_
 
-> We've given you a basic, but functional, starting point for each layer of the stack.
-> ... and yes, we know the UI is a bit naff ;-)
+<img width="1411" alt="image" src="https://github.com/hirusepalika/developer-challenge-kaleido-HF/assets/16341779/42475228-5b0c-4946-b578-bc04a7756839">
 
-## Some ideas
+_user is new and just submitted ratings:_
 
-These are just ideas to give inspiration
+<img width="684" alt="image" src="https://github.com/hirusepalika/developer-challenge-kaleido-HF/assets/16341779/75a944f0-e036-47ea-81c5-34002342616f">
 
-Choose something/anything you think is interesting, and gives you license to focus on the bit of the stack you care about.
+_user entered has already rated movies:_
 
-It's your choice whether you focus more on how things work under the covers, or how things feel in the UI/UX.
-
-- A blockchain backed ratings system for Movies
-- A racing simulation (you can even see one here in our [Racecourse sample](https://github.com/kaleido-io/racecourse))
-- A funky avatar generator, where each avatar is backed by a unique token
-- A conference ticketing system with camera & QR code integration
-- A digital collectable swag bag, earned by posting to social media
-
-## Want more dev stack?
-
-Here are some dev technologies (not in the starter repo) that we love at Kaleido:
-
-- TailwindCSS or Material UI (or insert your favorite component library here) - at Kaleido we love re-use
-- GraphQL (Apollo) for front-end/back-end comms
-- WebSockets for live updating and notifications
-- PostgreSQL for relational data
-- MongoDB NoSQL database for configuration and local state
-
-Remember we'd like a thin thread through your DApp, so choose technologies you think you can be productive in.
-
-Want to throw away most of the original `create-react-app` + `express` based repo?
-No problem. Go for it.
-
-## Setting up your FireFly on your machine
-
-Run through our [Getting Started guide](https://hyperledger.github.io/firefly/gettingstarted/).
-
-When you're done, you will have FireFly and all its microservices, including your very own private blockchain, running on your machine.
-
-## Getting this repo up and running
-
-This repo has two directories in it:
-
-- `backend`: A very simple TypeScript Node.js app that uses the FireFly SDK to interact with a custom smart contract
-- `frontend`: A TypeScript React UI bootstrapped with [create-react-app](https://github.com/facebook/create-react-app) that calls the API in the backend.
-
-To run these, `cd` into each directory and run:
-
-```
-npm install
-npm start
-```
-
-When the backend starts it will set up a contract using the FireFly SDK automatically. The buttons on the Web UI will call the backend API endpoints to set and get a value from the blockchain.
-
-![Backend](backend.png)
-![Frontend](frontend.png)
-
-## Your journey begins here
-
-Now it's your turn to build something! You can use this backend and frontend as a starting point for your app, or you can start from scratch if you want.
+<img width="620" alt="image" src="https://github.com/hirusepalika/developer-challenge-kaleido-HF/assets/16341779/ed77599a-f14e-4976-ad89-2ed9ca05c21b">
