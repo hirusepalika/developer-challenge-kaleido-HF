@@ -3,6 +3,13 @@ import express from "express";
 import bodyparser from "body-parser";
 import simplestorage from "../contracts/simple_storage.json";
 import { v4 as uuidv4 } from "uuid";
+import winston from "winston";
+import * as mongoDB from "mongodb";
+import * as dotenv from "dotenv";
+
+const logger = winston.createLogger({
+  transports: [new winston.transports.Console()],
+});
 
 const PORT = 4001;
 const HOST = "http://localhost:5000";
@@ -17,15 +24,37 @@ let apiName: string;
 
 app.use(bodyparser.json());
 
-app.get("/api/value", async (req, res) => {
-  res.send(await firefly.queryContractAPI(apiName, "get", {}));
-});
+dotenv.config();
 
-app.post("/api/value", async (req, res) => {
+export const collections: { users?: mongoDB.Collection } = {}
+
+let userTransactionCollection: mongoDB.Collection;
+
+//CONNECTION TO MONGOOSE DATABASE
+export async function initDb() {
+    const client = new mongoDB.MongoClient(process.env.MONGODB_URL as string);  
+    await client.connect();
+        
+    const db: mongoDB.Db = client.db(process.env.DB_NAME as string);
+    userTransactionCollection = db.collection(process.env.DB_COLLECTION_NAME as string);
+    
+
+    logger.info(`Successfully connected to database: ${db.databaseName} and collection: ${userTransactionCollection.collectionName}`)
+
+    collections.users = userTransactionCollection; 
+}
+
+// set movie rating with user id
+app.post("/api/setMovieRating", async (req, res) => {
   try {
-    const fireflyRes = await firefly.invokeContractAPI(apiName, "set", {
+    const fireflyRes = await firefly.invokeContractAPI("movieRater6", "setMovieRating", {
       input: {
-        x: req.body.x,
+        userId: req.body.userId,
+        ratingInfo: 
+          {
+              movieTitle: req.body.ratingInfo.movieTitle,
+              movieRating: req.body.ratingInfo.movieRating
+          }
       },
     });
     res.status(202).send({
@@ -35,6 +64,47 @@ app.post("/api/value", async (req, res) => {
     res.status(500).send({
       error: e.message,
     });
+  }
+});
+
+// fetch movie ratings for given user
+app.get("/api/getMovieRatings", async (req, res) => {
+  try {
+    res.status(202).send(await firefly.queryContractAPI("movieRater6", "getMovieRatings", {
+      input: {
+        userId: req.query.userId
+      }
+    }));
+  } catch (e: any) {
+    res.status(500).send({
+      error: e.message,
+    });
+  }
+  
+});
+
+// get existing users from mongoDB
+app.get("/api/allowedUsers", async (req, res) => {
+  try {
+     const userData = (await collections.users.find({}).toArray());
+
+      res.status(200).send(userData);
+  } catch (error) {
+      res.status(500).send(error.message);
+  }
+});
+
+// create new user and add to mongoDB
+app.post("/api/newUser", (req, res) => {
+  try {
+    const {body} = req;
+    // add new user to our user registry in mongodb
+    userTransactionCollection.insertOne({"emailAddress": body.newUserEmail})
+    res.status(202).send({
+      emailAddress: body.newUserEmail,
+    });
+  } catch (error) {
+    res.status(500).send(error.message);
   }
 });
 
@@ -94,6 +164,8 @@ async function init() {
       console.log(event.blockchainEvent?.output);
     }
   );
+
+  await initDb()
 
   // Start listening
   app.listen(PORT, () =>
